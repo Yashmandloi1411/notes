@@ -30,6 +30,11 @@ This guide provides step-by-step instructions for setting up and using Nodemaile
    - Set the application type to **Web application**.
    - Under **Authorized redirect URIs**, add `http://localhost` and `https://developers.google.com/oauthplayground` (or your application’s URL).
    - After creating, you'll get your **ClientID** and **ClientSecret**.
+5.### Important
+- If app is in Testing mode:
+  - Go to Audience → Test Users
+  - Add your Gmail account
+  - Otherwise OAuth login/email sending may fail
 
 ## Generating the Refresh Token Using OAuth 2.0 Playground
 
