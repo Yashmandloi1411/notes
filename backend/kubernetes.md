@@ -1,13 +1,13 @@
-# Kubernetes — Local Setup & Command Reference
+# <span style="color:#326CE5;">Kubernetes — Local Setup & Command Reference</span>
 
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-Local%20Setup-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
 ![Docker Desktop](https://img.shields.io/badge/Docker-Desktop-1D63ED?style=for-the-badge&logo=docker&logoColor=white)
 ![MERN Stack](https://img.shields.io/badge/Examples-MERN%20Stack-1A6B4A?style=for-the-badge)
 ![Commands](https://img.shields.io/badge/Reference-kubectl-C84B1F?style=for-the-badge)
 
-> A GitHub-ready collection of Kubernetes learning notes and command cheat sheets. This guide is organized into a local setup section followed by a practical kubectl reference.
+> <span style="color:#C84B1F; font-weight:700;">Key idea:</span> A GitHub-ready collection of Kubernetes learning notes and command cheat sheets. This guide is organized into a local setup section followed by a practical kubectl reference.
 
-## Original color palette
+## <span style="color:#1A6B4A;">Original color palette</span>
 
 The first guide uses a warm paper background, dark ink, and accent colors. GitHub controls the page theme and sanitizes many custom CSS styles, so the palette is represented here with badges and labels rather than unsupported page-wide CSS.
 
@@ -16,16 +16,16 @@ The first guide uses a warm paper background, dark ink, and accent colors. GitHu
 - Accent blue: ![blue](https://img.shields.io/badge/Accent-1B4587-1B4587?style=flat-square)
 - Accent gold: ![gold](https://img.shields.io/badge/Accent-B8860B-B8860B?style=flat-square)
 
-## Contents
+## <span style="color:#1B4587;">Contents</span>
 
 1. [Kubernetes Local Setup — Complete Notes](#part-1-kubernetes-local-setup--complete-notes)
 2. [Kubernetes Commands Cheat Sheet](#part-2-kubernetes-commands-cheat-sheet)
 
 ---
 
-# Part 1: Kubernetes Local Setup — Complete Notes
+# <span style="color:#C84B1F;">Part 1: Kubernetes Local Setup — Complete Notes</span>
 
-## Overview
+## <span style="color:#1B4587;">Overview</span>
 
 - [What is Kubernetes?](#what-is-kubernetes)
 - [Architecture](#architecture)
@@ -43,11 +43,11 @@ The first guide uses a warm paper background, dark ink, and accent colors. GitHu
 - [Autoscaling (HPA)](#autoscaling-hpa)
 - [Managing Secrets Locally](#managing-secrets-locally)
 
-## Kubernetes on Your Local Machine
+## <span style="color:#1A6B4A;">Kubernetes on Your Local Machine</span>
 
 A complete guide to understanding and running Kubernetes locally using Docker Desktop. It covers the core components with examples from a real MERN stack project.
 
-### What is Kubernetes?
+### <span style="color:#C84B1F;">What is Kubernetes?</span>
 
 Kubernetes (K8s) is a container orchestration system. It manages how your Docker containers run, making sure the right number are running, restarting them when they crash, routing traffic between them, and scaling them up when load increases.
 
@@ -55,28 +55,28 @@ You describe your desired state in YAML files, and Kubernetes makes it happen.
 
 #### Without vs With Kubernetes
 
-| Situation | Without Kubernetes | With Kubernetes |
-| --- | --- | --- |
-| Container crashes | App goes down, manual restart needed | Kubernetes restarts it automatically |
-| Traffic spike | App slows down or crashes | HPA adds more containers automatically |
-| Multiple services | Manual ports, complex networking | Internal DNS; services talk by name |
-| Deploy new version | Downtime during update | Rolling update with zero downtime |
-| Multiple replicas | Manage each container manually | Set `replicas: 3` and Kubernetes handles the rest |
+| Situation          | Without Kubernetes                   | With Kubernetes                                   |
+| ------------------ | ------------------------------------ | ------------------------------------------------- |
+| Container crashes  | App goes down, manual restart needed | Kubernetes restarts it automatically              |
+| Traffic spike      | App slows down or crashes            | HPA adds more containers automatically            |
+| Multiple services  | Manual ports, complex networking     | Internal DNS; services talk by name               |
+| Deploy new version | Downtime during update               | Rolling update with zero downtime                 |
+| Multiple replicas  | Manage each container manually       | Set `replicas: 3` and Kubernetes handles the rest |
 
 #### Key terms at a glance
 
-| Term | Simple meaning |
-| --- | --- |
-| Pod | Smallest unit. One or more containers running together. |
-| Deployment | Manages pods, keeps them running, handles updates and rollbacks. |
-| Service | Stable network endpoint that finds pods using labels and routes traffic to them. |
-| Ingress | HTTP routing rules: which domain/path goes to which service. |
-| Ingress Controller | The actual pod (nginx) that reads Ingress rules and routes real traffic. |
-| Namespace | Virtual cluster inside a cluster used to separate environments. |
-| ConfigMap | Stores non-secret config like environment variables separately from the image. |
-| Secret | Stores sensitive config like passwords and tokens encoded in the cluster. |
+| Term               | Simple meaning                                                                   |
+| ------------------ | -------------------------------------------------------------------------------- |
+| Pod                | Smallest unit. One or more containers running together.                          |
+| Deployment         | Manages pods, keeps them running, handles updates and rollbacks.                 |
+| Service            | Stable network endpoint that finds pods using labels and routes traffic to them. |
+| Ingress            | HTTP routing rules: which domain/path goes to which service.                     |
+| Ingress Controller | The actual pod (nginx) that reads Ingress rules and routes real traffic.         |
+| Namespace          | Virtual cluster inside a cluster used to separate environments.                  |
+| ConfigMap          | Stores non-secret config like environment variables separately from the image.   |
+| Secret             | Stores sensitive config like passwords and tokens encoded in the cluster.        |
 
-### Architecture
+### <span style="color:#1B4587;">Architecture</span>
 
 A Kubernetes cluster has two parts:
 
@@ -125,7 +125,7 @@ your-project/
 └── .gitignore
 ```
 
-### Pod
+### <span style="color:#1A6B4A;">Pod</span>
 
 A Pod is a wrapper around one or more containers. All containers in a pod share the same network and storage. In practice, most pods contain a single container, which is your app.
 
@@ -133,12 +133,12 @@ You rarely create pods directly; a Deployment creates and manages them for you.
 
 #### What a pod contains
 
-| What | Description |
-| --- | --- |
-| Container(s) | One or more Docker containers. They share the same localhost inside the pod. |
-| IP address | Each pod gets its own IP inside the cluster. This changes every time a pod restarts, which is why you use a Service instead of the pod IP directly. |
-| Labels | Key-value tags like `app: express`. Services and Deployments use these to find the pod. |
-| Resources | CPU and memory limits and requests defined in the pod spec. |
+| What         | Description                                                                                                                                         |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Container(s) | One or more Docker containers. They share the same localhost inside the pod.                                                                        |
+| IP address   | Each pod gets its own IP inside the cluster. This changes every time a pod restarts, which is why you use a Service instead of the pod IP directly. |
+| Labels       | Key-value tags like `app: express`. Services and Deployments use these to find the pod.                                                             |
+| Resources    | CPU and memory limits and requests defined in the pod spec.                                                                                         |
 
 #### Pod lifecycle
 
@@ -165,18 +165,18 @@ kubectl logs <pod-name>
 kubectl exec -it <pod-name> -- sh
 ```
 
-### Deployment
+### <span style="color:#C84B1F;">Deployment</span>
 
 A Deployment is a manager for your pods. You tell it which image to run, how many replicas you want, and what resources each pod needs. It ensures the desired state is always maintained. If a pod crashes, the Deployment creates a new one. If you update the image, it performs a rolling update with zero downtime.
 
 #### Responsibilities of a Deployment
 
-| Responsibility | What it means |
-| --- | --- |
-| Replica management | Always keeps the exact number of pods running. If one crashes, a new one is created immediately. |
-| Rolling update | When you push a new image, Kubernetes replaces pods one by one. Old pods serve traffic until new ones are ready. |
-| Rollback | If a new version has a bug, you can revert to the previous working version. |
-| Scaling | Change the replica count manually or let HPA do it automatically based on CPU. |
+| Responsibility     | What it means                                                                                                    |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| Replica management | Always keeps the exact number of pods running. If one crashes, a new one is created immediately.                 |
+| Rolling update     | When you push a new image, Kubernetes replaces pods one by one. Old pods serve traffic until new ones are ready. |
+| Rollback           | If a new version has a bug, you can revert to the previous working version.                                      |
+| Scaling            | Change the replica count manually or let HPA do it automatically based on CPU.                                   |
 
 #### Full `deployment.yaml` with explanation
 
@@ -213,23 +213,23 @@ spec:
 
 #### Key fields explained
 
-| Field | Value | What it does |
-| --- | --- | --- |
-| `apiVersion` | `apps/v1` | Deployment belongs to the apps API group. |
-| `replicas` | `2` | Always maintain 2 running pods. |
-| `selector.matchLabels` | `app: express` | Deployment manages pods that have matching labels. |
-| `template.metadata.labels` | `app: express` | Labels stamped on every pod created by this Deployment. |
-| `imagePullPolicy` | `IfNotPresent` | Use local image if available. |
-| `resources.requests` | `cpu: 250m` | CPU and memory reserved for the pod. HPA uses this to calculate utilization. |
-| `resources.limits` | `cpu: 500m` | Maximum CPU/memory the pod can use. |
+| Field                      | Value          | What it does                                                                 |
+| -------------------------- | -------------- | ---------------------------------------------------------------------------- |
+| `apiVersion`               | `apps/v1`      | Deployment belongs to the apps API group.                                    |
+| `replicas`                 | `2`            | Always maintain 2 running pods.                                              |
+| `selector.matchLabels`     | `app: express` | Deployment manages pods that have matching labels.                           |
+| `template.metadata.labels` | `app: express` | Labels stamped on every pod created by this Deployment.                      |
+| `imagePullPolicy`          | `IfNotPresent` | Use local image if available.                                                |
+| `resources.requests`       | `cpu: 250m`    | CPU and memory reserved for the pod. HPA uses this to calculate utilization. |
+| `resources.limits`         | `cpu: 500m`    | Maximum CPU/memory the pod can use.                                          |
 
 #### CPU units explained
 
-| Value | Meaning |
-| --- | --- |
-| `1000m` | 1 full CPU core |
-| `500m` | Half a CPU core |
-| `250m` | Quarter of a CPU core |
+| Value   | Meaning               |
+| ------- | --------------------- |
+| `1000m` | 1 full CPU core       |
+| `500m`  | Half a CPU core       |
+| `250m`  | Quarter of a CPU core |
 
 #### Useful Deployment commands
 
@@ -241,7 +241,7 @@ kubectl scale deployment express-deployment --replicas=5
 kubectl rollout restart deployment/express-deployment
 ```
 
-### ReplicaSet
+### <span style="color:#1B4587;">ReplicaSet</span>
 
 A ReplicaSet is the component that guarantees N copies of your pod are always running. If a pod crashes, the ReplicaSet creates a replacement. If there are too many pods, it deletes extras.
 
@@ -263,10 +263,10 @@ ReplicaSet creates Pod 3 automatically ✅
 
 #### Why you don't write ReplicaSet YAML directly
 
-| If you use | What you get |
-| --- | --- |
-| Deployment | ReplicaSet management, rolling updates, rollback history. Always use this in practice. |
-| ReplicaSet directly | Pod count maintenance only. No rolling updates, no rollback. Not recommended. |
+| If you use          | What you get                                                                           |
+| ------------------- | -------------------------------------------------------------------------------------- |
+| Deployment          | ReplicaSet management, rolling updates, rollback history. Always use this in practice. |
+| ReplicaSet directly | Pod count maintenance only. No rolling updates, no rollback. Not recommended.          |
 
 > When you run `kubectl get replicasets`, you will see an auto-generated ReplicaSet like `express-deployment-7d9f8b6c4` — the suffix is a fingerprint of the pod template. When you update the image, a new ReplicaSet is created and the old one is scaled down to zero but kept for rollback.
 
@@ -308,7 +308,7 @@ spec:
             - containerPort: 3000
 ```
 
-### Service
+### <span style="color:#1A6B4A;">Service</span>
 
 Pods are temporary — they crash and restart with new IP addresses. A Service gives you a stable endpoint that never changes. It finds pods using label selectors and load balances traffic across all matching pods automatically. When a pod is added or removed, the Service updates its list instantly.
 
@@ -331,17 +331,17 @@ spec:
 
 #### Three Service types
 
-| Type | Accessible from | Use case |
-| --- | --- | --- |
-| `ClusterIP` | Inside cluster only | Pod-to-pod communication. Default type. Used with Ingress. |
-| `NodePort` | External via port number | Quick local testing. Access via `localhost:30001`. |
-| `LoadBalancer` | External via cloud LB | Production on AWS/GCP. Creates a real load balancer. |
+| Type           | Accessible from          | Use case                                                   |
+| -------------- | ------------------------ | ---------------------------------------------------------- |
+| `ClusterIP`    | Inside cluster only      | Pod-to-pod communication. Default type. Used with Ingress. |
+| `NodePort`     | External via port number | Quick local testing. Access via `localhost:30001`.         |
+| `LoadBalancer` | External via cloud LB    | Production on AWS/GCP. Creates a real load balancer.       |
 
 #### `port` vs `targetPort`
 
-| Field | Value | Meaning |
-| --- | --- | --- |
-| `port` | `80` | The port the Service exposes inside the cluster. |
+| Field        | Value  | Meaning                                                 |
+| ------------ | ------ | ------------------------------------------------------- |
+| `port`       | `80`   | The port the Service exposes inside the cluster.        |
 | `targetPort` | `3000` | The port your app is listening on inside the container. |
 
 #### NodePort for local testing
@@ -372,7 +372,7 @@ kubectl get services
 kubectl get endpoints express-service
 ```
 
-### Ingress
+### <span style="color:#C84B1F;">Ingress</span>
 
 An Ingress resource is a set of HTTP routing rules written in YAML. It says things like: `traffic for express.local/ should go to express-service`, or `traffic for express.local/auth should go to auth-service`.
 
@@ -425,12 +425,12 @@ rules:
 
 #### Key fields explained
 
-| Field | Value | What it does |
-| --- | --- | --- |
-| `ingressClassName` | `nginx` | Tells Kubernetes which Ingress Controller should handle this rule. |
-| `host` | `express.local` | Only traffic with this Host header matches the rule. |
-| `pathType: Prefix` | `Prefix` | Matches the path and everything after it. |
-| `pathType: Exact` | `Exact` | Only matches that exact path. |
+| Field              | Value           | What it does                                                       |
+| ------------------ | --------------- | ------------------------------------------------------------------ |
+| `ingressClassName` | `nginx`         | Tells Kubernetes which Ingress Controller should handle this rule. |
+| `host`             | `express.local` | Only traffic with this Host header matches the rule.               |
+| `pathType: Prefix` | `Prefix`        | Matches the path and everything after it.                          |
+| `pathType: Exact`  | `Exact`         | Only matches that exact path.                                      |
 
 #### For local development — skip the host
 
@@ -449,18 +449,18 @@ rules:
 
 Access via `http://localhost` directly, without editing `/etc/hosts`.
 
-### Ingress Controller
+### <span style="color:#1B4587;">Ingress Controller</span>
 
 The Ingress Controller is a pod running nginx inside your cluster. It watches all Ingress resources and configures itself to route traffic according to those rules. Without the controller, your `ingress.yaml` is just a config file sitting there doing nothing.
 
 #### Ingress vs Ingress Controller
 
-| What | Ingress Resource | Ingress Controller |
-| --- | --- | --- |
-| What it is | A YAML file with routing rules | An actual nginx pod running in your cluster |
-| Created by | You with `kubectl apply -f ingress.yaml` | You install once with `kubectl apply -f nginx-url` |
-| Does it route traffic? | No, it only defines rules | Yes, it reads rules and routes real HTTP traffic |
-| Namespace | default | `ingress-nginx` |
+| What                   | Ingress Resource                         | Ingress Controller                                 |
+| ---------------------- | ---------------------------------------- | -------------------------------------------------- |
+| What it is             | A YAML file with routing rules           | An actual nginx pod running in your cluster        |
+| Created by             | You with `kubectl apply -f ingress.yaml` | You install once with `kubectl apply -f nginx-url` |
+| Does it route traffic? | No, it only defines rules                | Yes, it reads rules and routes real HTTP traffic   |
+| Namespace              | default                                  | `ingress-nginx`                                    |
 
 #### Install nginx Ingress Controller
 
@@ -495,7 +495,7 @@ Now `http://express.local` in your browser will route to your nginx Ingress Cont
 
 > `ingressClassName: nginx` in your `ingress.yaml` tells the controller which rules are meant for it. If you had Traefik installed, it would only pick up rules with `ingressClassName: traefik`.
 
-### Enable Kubernetes on Docker Desktop
+### <span style="color:#1A6B4A;">Enable Kubernetes on Docker Desktop</span>
 
 #### Step 1 — Enable in Docker Desktop settings
 
@@ -529,18 +529,18 @@ kubectl config get-contexts
 
 > The `~/.kube/config` file stores all cluster connection info. When you later create an EKS cluster with `eksctl`, it adds a new entry here and switches the current context to EKS automatically. Switch back with `kubectl config use-context docker-desktop`.
 
-### Writing YAML Files
+### <span style="color:#C84B1F;">Writing YAML Files</span>
 
 Every Kubernetes resource is defined in a YAML file. Each file must have `apiVersion`, `kind`, `metadata`, and `spec`. The `apiVersion` tells Kubernetes which API group the resource belongs to.
 
 #### `apiVersion` — which API group
 
-| Resource | `apiVersion` | Why |
-| --- | --- | --- |
-| Pod, Service, ConfigMap, Secret | `v1` | Core group — fundamental Kubernetes resources. |
-| Deployment, StatefulSet, DaemonSet | `apps/v1` | Apps group — higher-level workload resources. |
-| Ingress, NetworkPolicy | `networking.k8s.io/v1` | Networking group — cluster networking resources. |
-| HorizontalPodAutoscaler | `autoscaling/v2` | Autoscaling group — controls scaling behavior. |
+| Resource                           | `apiVersion`           | Why                                              |
+| ---------------------------------- | ---------------------- | ------------------------------------------------ |
+| Pod, Service, ConfigMap, Secret    | `v1`                   | Core group — fundamental Kubernetes resources.   |
+| Deployment, StatefulSet, DaemonSet | `apps/v1`              | Apps group — higher-level workload resources.    |
+| Ingress, NetworkPolicy             | `networking.k8s.io/v1` | Networking group — cluster networking resources. |
+| HorizontalPodAutoscaler            | `autoscaling/v2`       | Autoscaling group — controls scaling behavior.   |
 
 #### Putting multiple resources in one file
 
@@ -556,7 +556,7 @@ kind: Service
 
 > Keep files separate as your project grows. One file per resource makes it easier to find and edit things. Use `kubectl apply -f k8s/` to apply the entire folder at once.
 
-### Labels & Selectors
+### <span style="color:#1B4587;">Labels & Selectors</span>
 
 Labels are key-value tags on pods. Selectors are filters used by Deployments and Services to find pods with specific labels. This is how all three resources connect: the Deployment owns pods via selector, and the Service routes to pods via selector.
 
@@ -582,11 +582,11 @@ selector:
 
 #### Selector matching rules
 
-| Pod labels | Selector: `app=express` | Result |
-| --- | --- | --- |
-| `app: express` | Matches | Selected ✅ |
-| `app: express, env: prod` | Matches (extra label ignored) | Selected ✅ |
-| `app: backend` | Does not match | Ignored ❌ |
+| Pod labels                   | Selector: `app=express`                       | Result      |
+| ---------------------------- | --------------------------------------------- | ----------- |
+| `app: express`               | Matches                                       | Selected ✅ |
+| `app: express, env: prod`    | Matches (extra label ignored)                 | Selected ✅ |
+| `app: backend`               | Does not match                                | Ignored ❌  |
 | `app: express, env: staging` | Partially matches selector `app=express` only | Selected ✅ |
 
 #### Multiple deployments using labels
@@ -609,7 +609,7 @@ selector:
 
 Both deployments exist in the same cluster but never interfere with each other because their selectors are different.
 
-### Deploy Your App
+### <span style="color:#1A6B4A;">Deploy Your App</span>
 
 #### Step 1 — Build Docker image
 
@@ -639,11 +639,11 @@ kubectl get ingress
 
 #### Step 4 — Access in browser
 
-| Setup | URL |
-| --- | --- |
-| No host in ingress | `http://localhost` |
-| `host: express.local` with `/etc/hosts` | `http://express.local` |
-| NodePort service | `http://localhost:30001` |
+| Setup                                   | URL                      |
+| --------------------------------------- | ------------------------ |
+| No host in ingress                      | `http://localhost`       |
+| `host: express.local` with `/etc/hosts` | `http://express.local`   |
+| NodePort service                        | `http://localhost:30001` |
 
 #### Update your app
 
@@ -655,18 +655,18 @@ docker build -t express-k8s:latest .
 kubectl rollout restart deployment/express-deployment
 ```
 
-### Debug Commands
+### <span style="color:#C84B1F;">Debug Commands</span>
 
 #### Common errors and what to do
 
-| Error | Cause | Debug command |
-| --- | --- | --- |
-| `ImagePullBackOff` | Cannot pull Docker image. Usually local image not built or wrong name. | `kubectl describe pod <name>` |
-| `CrashLoopBackOff` | Container keeps crashing. App has a startup error. | `kubectl logs <pod-name>` |
-| `503 Service Unavailable` | Ingress controller running but no pods found. Label mismatch. | `kubectl get endpoints <service>` |
-| `404 Not Found` | nginx running but no matching ingress rule for that host/path. | `kubectl describe ingress <name>` |
-| `Pending (pod)` | No node has enough CPU/memory to schedule the pod. | `kubectl describe pod <name>` |
-| `ECONNREFUSED` | Pod is calling another service using localhost instead of service name. | Use `http://service-name` instead of `http://localhost:PORT` |
+| Error                     | Cause                                                                   | Debug command                                                |
+| ------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `ImagePullBackOff`        | Cannot pull Docker image. Usually local image not built or wrong name.  | `kubectl describe pod <name>`                                |
+| `CrashLoopBackOff`        | Container keeps crashing. App has a startup error.                      | `kubectl logs <pod-name>`                                    |
+| `503 Service Unavailable` | Ingress controller running but no pods found. Label mismatch.           | `kubectl get endpoints <service>`                            |
+| `404 Not Found`           | nginx running but no matching ingress rule for that host/path.          | `kubectl describe ingress <name>`                            |
+| `Pending (pod)`           | No node has enough CPU/memory to schedule the pod.                      | `kubectl describe pod <name>`                                |
+| `ECONNREFUSED`            | Pod is calling another service using localhost instead of service name. | Use `http://service-name` instead of `http://localhost:PORT` |
 
 #### Essential debug commands
 
@@ -695,7 +695,7 @@ kubectl exec -it <pod-name> -- sh
 wget -qO- http://some-service/api/data
 ```
 
-### Autoscaling (HPA)
+### <span style="color:#1B4587;">Autoscaling (HPA)</span>
 
 The HorizontalPodAutoscaler (HPA) watches CPU usage across your pods and automatically scales the replica count up or down. When CPU exceeds the threshold, it adds pods. When traffic drops, it removes them.
 
@@ -789,7 +789,7 @@ kubectl get hpa
 kubectl top pods
 ```
 
-### Managing Secrets Locally
+### <span style="color:#1A6B4A;">Managing Secrets Locally</span>
 
 A Secret stores sensitive data like database passwords, API keys, and JWT secrets inside the Kubernetes cluster — encoded in base64. Pods then access these values as environment variables or file mounts.
 
@@ -885,14 +885,14 @@ const dbPassword = process.env.DB_PASSWORD;
 
 #### Secret vs ConfigMap — when to use which
 
-| Use case | ConfigMap | Secret |
-| --- | --- | --- |
-| Database password | ❌ Never | ✅ Yes |
-| API base URL | ✅ Yes | Not needed |
-| JWT secret key | ❌ Never | ✅ Yes |
-| `NODE_ENV=production` | ✅ Yes | Not needed |
-| MongoDB connection string | ❌ If it has password | ✅ Yes |
-| Port number | ✅ Yes | Not needed |
+| Use case                  | ConfigMap             | Secret     |
+| ------------------------- | --------------------- | ---------- |
+| Database password         | ❌ Never              | ✅ Yes     |
+| API base URL              | ✅ Yes                | Not needed |
+| JWT secret key            | ❌ Never              | ✅ Yes     |
+| `NODE_ENV=production`     | ✅ Yes                | Not needed |
+| MongoDB connection string | ❌ If it has password | ✅ Yes     |
+| Port number               | ✅ Yes                | Not needed |
 
 #### Add `secret.yaml` to your project structure
 
@@ -932,116 +932,116 @@ echo $JWT_SECRET
 
 ---
 
-# Part 2: Kubernetes Commands Cheat Sheet
+# <span style="color:#C84B1F;">Part 2: Kubernetes Commands Cheat Sheet</span>
 
-## Basic Cluster & Context
+## <span style="color:#1B4587;">Basic Cluster & Context</span>
 
-| Command | What it does | Important flags | Flag description |
-| --- | --- | --- | --- |
-| `kubectl version` | Shows client and server version | `--short` | Short output |
-| `kubectl cluster-info` | Displays cluster info | — | — |
-| `kubectl config get-contexts` | Lists all contexts | — | — |
-| `kubectl config use-context <name>` | Switch context | — | — |
-| `kubectl config current-context` | Shows current context | — | — |
+| Command                             | What it does                    | Important flags | Flag description |
+| ----------------------------------- | ------------------------------- | --------------- | ---------------- |
+| `kubectl version`                   | Shows client and server version | `--short`       | Short output     |
+| `kubectl cluster-info`              | Displays cluster info           | —               | —                |
+| `kubectl config get-contexts`       | Lists all contexts              | —               | —                |
+| `kubectl config use-context <name>` | Switch context                  | —               | —                |
+| `kubectl config current-context`    | Shows current context           | —               | —                |
 
-## Pods
+## <span style="color:#1A6B4A;">Pods</span>
 
-| Command | What it does | Important flags | Flag description |
-| --- | --- | --- | --- |
-| `kubectl get pods` | List pods | `-o wide`, `-A` | More details, all namespaces |
-| `kubectl describe pod <pod>` | Detailed pod info | — | — |
-| `kubectl logs <pod>` | Show logs | `-f`, `--tail=50` | Follow logs, last 50 lines |
-| `kubectl exec -it <pod> -- bash` | Access container shell | `-c <container>` | Specify container |
-| `kubectl delete pod <pod>` | Delete pod | `--grace-period=0 --force` | Force delete |
+| Command                          | What it does           | Important flags            | Flag description             |
+| -------------------------------- | ---------------------- | -------------------------- | ---------------------------- |
+| `kubectl get pods`               | List pods              | `-o wide`, `-A`            | More details, all namespaces |
+| `kubectl describe pod <pod>`     | Detailed pod info      | —                          | —                            |
+| `kubectl logs <pod>`             | Show logs              | `-f`, `--tail=50`          | Follow logs, last 50 lines   |
+| `kubectl exec -it <pod> -- bash` | Access container shell | `-c <container>`           | Specify container            |
+| `kubectl delete pod <pod>`       | Delete pod             | `--grace-period=0 --force` | Force delete                 |
 
-## Deployments
+## <span style="color:#C84B1F;">Deployments</span>
 
-| Command | What it does | Important flags | Flag description |
-| --- | --- | --- | --- |
-| `kubectl get deployments` | List deployments | `-A` | All namespaces |
-| `kubectl create deployment <name> --image=<img>` | Create deployment | `--replicas=3` | Set replicas |
-| `kubectl scale deployment <name>` | Scale deployment | `--replicas=5` | Number of pods |
-| `kubectl rollout status deployment <name>` | Check rollout | — | — |
-| `kubectl rollout undo deployment <name>` | Rollback deployment | — | — |
+| Command                                          | What it does        | Important flags | Flag description |
+| ------------------------------------------------ | ------------------- | --------------- | ---------------- |
+| `kubectl get deployments`                        | List deployments    | `-A`            | All namespaces   |
+| `kubectl create deployment <name> --image=<img>` | Create deployment   | `--replicas=3`  | Set replicas     |
+| `kubectl scale deployment <name>`                | Scale deployment    | `--replicas=5`  | Number of pods   |
+| `kubectl rollout status deployment <name>`       | Check rollout       | —               | —                |
+| `kubectl rollout undo deployment <name>`         | Rollback deployment | —               | —                |
 
-## Services
+## <span style="color:#1B4587;">Services</span>
 
-| Command | What it does | Important flags | Flag description |
-| --- | --- | --- | --- |
-| `kubectl get svc` | List services | — | — |
-| `kubectl expose deployment <name>` | Create service | `--type=NodePort`, `--port=80`, `--target-port=8080` | Service type and ports |
-| `kubectl describe svc <name>` | Service details | — | — |
+| Command                            | What it does    | Important flags                                      | Flag description       |
+| ---------------------------------- | --------------- | ---------------------------------------------------- | ---------------------- |
+| `kubectl get svc`                  | List services   | —                                                    | —                      |
+| `kubectl expose deployment <name>` | Create service  | `--type=NodePort`, `--port=80`, `--target-port=8080` | Service type and ports |
+| `kubectl describe svc <name>`      | Service details | —                                                    | —                      |
 
-## Namespaces
+## <span style="color:#1A6B4A;">Namespaces</span>
 
-| Command | What it does | Important flags | Flag description |
-| --- | --- | --- | --- |
-| `kubectl get ns` | List namespaces | — | — |
-| `kubectl create ns <name>` | Create namespace | — | — |
-| `kubectl delete ns <name>` | Delete namespace | — | — |
-| `kubectl get pods -n <ns>` | Pods in namespace | — | — |
+| Command                    | What it does      | Important flags | Flag description |
+| -------------------------- | ----------------- | --------------- | ---------------- |
+| `kubectl get ns`           | List namespaces   | —               | —                |
+| `kubectl create ns <name>` | Create namespace  | —               | —                |
+| `kubectl delete ns <name>` | Delete namespace  | —               | —                |
+| `kubectl get pods -n <ns>` | Pods in namespace | —               | —                |
 
-## Nodes
+## <span style="color:#C84B1F;">Nodes</span>
 
-| Command | What it does | Important flags | Flag description |
-| --- | --- | --- | --- |
-| `kubectl get nodes` | List nodes | `-o wide` | Extra details |
-| `kubectl describe node <node>` | Node info | — | — |
-| `kubectl cordon <node>` | Mark node unschedulable | — | — |
-| `kubectl uncordon <node>` | Enable scheduling | — | — |
-| `kubectl drain <node>` | Evacuate pods | `--ignore-daemonsets` | Skip daemonsets |
+| Command                        | What it does            | Important flags       | Flag description |
+| ------------------------------ | ----------------------- | --------------------- | ---------------- |
+| `kubectl get nodes`            | List nodes              | `-o wide`             | Extra details    |
+| `kubectl describe node <node>` | Node info               | —                     | —                |
+| `kubectl cordon <node>`        | Mark node unschedulable | —                     | —                |
+| `kubectl uncordon <node>`      | Enable scheduling       | —                     | —                |
+| `kubectl drain <node>`         | Evacuate pods           | `--ignore-daemonsets` | Skip daemonsets  |
 
-## Config & Secrets
+## <span style="color:#1B4587;">Config & Secrets</span>
 
-| Command | What it does | Important flags | Flag description |
-| --- | --- | --- | --- |
-| `kubectl create configmap <name>` | Create configmap | `--from-literal=key=value` | Inline data |
-| `kubectl get configmap` | List configmaps | — | — |
-| `kubectl create secret generic <name>` | Create secret | `--from-literal=key=value` | Inline secret |
-| `kubectl get secrets` | List secrets | — | — |
+| Command                                | What it does     | Important flags            | Flag description |
+| -------------------------------------- | ---------------- | -------------------------- | ---------------- |
+| `kubectl create configmap <name>`      | Create configmap | `--from-literal=key=value` | Inline data      |
+| `kubectl get configmap`                | List configmaps  | —                          | —                |
+| `kubectl create secret generic <name>` | Create secret    | `--from-literal=key=value` | Inline secret    |
+| `kubectl get secrets`                  | List secrets     | —                          | —                |
 
-## Apply & Files
+## <span style="color:#1A6B4A;">Apply & Files</span>
 
-| Command | What it does | Important flags | Flag description |
-| --- | --- | --- | --- |
-| `kubectl apply -f file.yaml` | Apply config | `-R` | Recursive |
-| `kubectl delete -f file.yaml` | Delete resources | — | — |
-| `kubectl diff -f file.yaml` | Show changes | — | — |
-| `kubectl replace -f file.yaml` | Replace resource | — | — |
+| Command                        | What it does     | Important flags | Flag description |
+| ------------------------------ | ---------------- | --------------- | ---------------- |
+| `kubectl apply -f file.yaml`   | Apply config     | `-R`            | Recursive        |
+| `kubectl delete -f file.yaml`  | Delete resources | —               | —                |
+| `kubectl diff -f file.yaml`    | Show changes     | —               | —                |
+| `kubectl replace -f file.yaml` | Replace resource | —               | —                |
 
-## Debugging & Monitoring
+## <span style="color:#C84B1F;">Debugging & Monitoring</span>
 
-| Command | What it does | Important flags | Flag description |
-| --- | --- | --- | --- |
-| `kubectl top pods` | Resource usage (pods) | — | Metrics server required |
-| `kubectl top nodes` | Node usage | — | — |
-| `kubectl get events` | Cluster events | `--sort-by=.metadata.creationTimestamp` | Sort events |
-| `kubectl describe` | Debug any resource | — | Works for all |
+| Command              | What it does          | Important flags                         | Flag description        |
+| -------------------- | --------------------- | --------------------------------------- | ----------------------- |
+| `kubectl top pods`   | Resource usage (pods) | —                                       | Metrics server required |
+| `kubectl top nodes`  | Node usage            | —                                       | —                       |
+| `kubectl get events` | Cluster events        | `--sort-by=.metadata.creationTimestamp` | Sort events             |
+| `kubectl describe`   | Debug any resource    | —                                       | Works for all           |
 
 ## Labels & Selectors
 
-| Command | What it does | Important flags | Flag description |
-| --- | --- | --- | --- |
-| `kubectl label pods <pod> key=value` | Add label | `--overwrite` | Replace existing |
-| `kubectl get pods -l key=value` | Filter by label | — | — |
+| Command                              | What it does    | Important flags | Flag description |
+| ------------------------------------ | --------------- | --------------- | ---------------- |
+| `kubectl label pods <pod> key=value` | Add label       | `--overwrite`   | Replace existing |
+| `kubectl get pods -l key=value`      | Filter by label | —               | —                |
 
-## Port Forwarding
+## <span style="color:#1A6B4A;">Port Forwarding</span>
 
-| Command | What it does | Important flags | Flag description |
-| --- | --- | --- | --- |
-| `kubectl port-forward pod/<pod> 8080:80` | Forward port | — | Local:Remote |
-| `kubectl port-forward svc/<svc> 8080:80` | Forward service | — | Local:Remote |
+| Command                                  | What it does    | Important flags | Flag description |
+| ---------------------------------------- | --------------- | --------------- | ---------------- |
+| `kubectl port-forward pod/<pod> 8080:80` | Forward port    | —               | Local:Remote     |
+| `kubectl port-forward svc/<svc> 8080:80` | Forward service | —               | Local:Remote     |
 
-## Quick Power Moves ⚡
+## <span style="color:#C84B1F;">Quick Power Moves ⚡</span>
 
-| Command | What it does |
-| --- | --- |
-| `kubectl get all` | Everything in namespace |
-| `kubectl delete all --all` | Delete everything |
-| `kubectl api-resources` | List resource types |
-| `kubectl explain <resource>` | Docs inside terminal |
+| Command                      | What it does            |
+| ---------------------------- | ----------------------- |
+| `kubectl get all`            | Everything in namespace |
+| `kubectl delete all --all`   | Delete everything       |
+| `kubectl api-resources`      | List resource types     |
+| `kubectl explain <resource>` | Docs inside terminal    |
 
-## Pro Tips (Real Dev Stuff)
+## <span style="color:#1B4587;">Pro Tips (Real Dev Stuff)</span>
 
 - Use aliases:
 
