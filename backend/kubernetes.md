@@ -1869,4 +1869,3 @@ MERN Stack · nginx Ingress
     kubectl apply -f file.yaml --dry-run=client
     ```
 :::
-
