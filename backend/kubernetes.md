@@ -934,9 +934,11 @@ echo $JWT_SECRET
 
 # <span style="color:#C84B1F;">Part 2: Kubernetes Commands Cheat Sheet</span>
 
+Each flag is listed on its own line so commands and options are easy to scan.
+
 ## <span style="color:#1B4587;">Basic Cluster & Context</span>
 
-| Command                             | What it does                    | Important flags | Flag description |
+| Command                             | What it does                    | Important Flags | Flag Description |
 | ----------------------------------- | ------------------------------- | --------------- | ---------------- |
 | `kubectl version`                   | Shows client and server version | `--short`       | Short output     |
 | `kubectl cluster-info`              | Displays cluster info           | —               | —                |
@@ -946,17 +948,19 @@ echo $JWT_SECRET
 
 ## <span style="color:#1A6B4A;">Pods</span>
 
-| Command                          | What it does           | Important flags            | Flag description             |
-| -------------------------------- | ---------------------- | -------------------------- | ---------------------------- |
-| `kubectl get pods`               | List pods              | `-o wide`, `-A`            | More details, all namespaces |
-| `kubectl describe pod <pod>`     | Detailed pod info      | —                          | —                            |
-| `kubectl logs <pod>`             | Show logs              | `-f`, `--tail=50`          | Follow logs, last 50 lines   |
-| `kubectl exec -it <pod> -- bash` | Access container shell | `-c <container>`           | Specify container            |
-| `kubectl delete pod <pod>`       | Delete pod             | `--grace-period=0 --force` | Force delete                 |
+| Command                          | What it does           | Important Flags            | Flag Description  |
+| -------------------------------- | ---------------------- | -------------------------- | ----------------- |
+| `kubectl get pods`               | List pods              | `-o wide`                  | More details      |
+| `kubectl get pods`               | List pods              | `-A`                       | All namespaces    |
+| `kubectl describe pod <pod>`     | Detailed pod info      | —                          | —                 |
+| `kubectl logs <pod>`             | Show logs              | `-f`                       | Follow logs       |
+| `kubectl logs <pod>`             | Show logs              | `--tail=50`                | Last 50 lines     |
+| `kubectl exec -it <pod> -- bash` | Access container shell | `-c <container>`           | Specify container |
+| `kubectl delete pod <pod>`       | Delete pod             | `--grace-period=0 --force` | Force delete      |
 
 ## <span style="color:#C84B1F;">Deployments</span>
 
-| Command                                          | What it does        | Important flags | Flag description |
+| Command                                          | What it does        | Important Flags | Flag Description |
 | ------------------------------------------------ | ------------------- | --------------- | ---------------- |
 | `kubectl get deployments`                        | List deployments    | `-A`            | All namespaces   |
 | `kubectl create deployment <name> --image=<img>` | Create deployment   | `--replicas=3`  | Set replicas     |
@@ -966,15 +970,17 @@ echo $JWT_SECRET
 
 ## <span style="color:#1B4587;">Services</span>
 
-| Command                            | What it does    | Important flags                                      | Flag description       |
-| ---------------------------------- | --------------- | ---------------------------------------------------- | ---------------------- |
-| `kubectl get svc`                  | List services   | —                                                    | —                      |
-| `kubectl expose deployment <name>` | Create service  | `--type=NodePort`, `--port=80`, `--target-port=8080` | Service type and ports |
-| `kubectl describe svc <name>`      | Service details | —                                                    | —                      |
+| Command                            | What it does    | Important Flags      | Flag Description |
+| ---------------------------------- | --------------- | -------------------- | ---------------- |
+| `kubectl get svc`                  | List services   | —                    | —                |
+| `kubectl expose deployment <name>` | Create service  | `--type=NodePort`    | Service type     |
+| `kubectl expose deployment <name>` | Create service  | `--port=80`          | Service port     |
+| `kubectl expose deployment <name>` | Create service  | `--target-port=8080` | Container port   |
+| `kubectl describe svc <name>`      | Service details | —                    | —                |
 
 ## <span style="color:#1A6B4A;">Namespaces</span>
 
-| Command                    | What it does      | Important flags | Flag description |
+| Command                    | What it does      | Important Flags | Flag Description |
 | -------------------------- | ----------------- | --------------- | ---------------- |
 | `kubectl get ns`           | List namespaces   | —               | —                |
 | `kubectl create ns <name>` | Create namespace  | —               | —                |
@@ -983,7 +989,7 @@ echo $JWT_SECRET
 
 ## <span style="color:#C84B1F;">Nodes</span>
 
-| Command                        | What it does            | Important flags       | Flag description |
+| Command                        | What it does            | Important Flags       | Flag Description |
 | ------------------------------ | ----------------------- | --------------------- | ---------------- |
 | `kubectl get nodes`            | List nodes              | `-o wide`             | Extra details    |
 | `kubectl describe node <node>` | Node info               | —                     | —                |
@@ -993,7 +999,7 @@ echo $JWT_SECRET
 
 ## <span style="color:#1B4587;">Config & Secrets</span>
 
-| Command                                | What it does     | Important flags            | Flag description |
+| Command                                | What it does     | Important Flags            | Flag Description |
 | -------------------------------------- | ---------------- | -------------------------- | ---------------- |
 | `kubectl create configmap <name>`      | Create configmap | `--from-literal=key=value` | Inline data      |
 | `kubectl get configmap`                | List configmaps  | —                          | —                |
@@ -1002,7 +1008,7 @@ echo $JWT_SECRET
 
 ## <span style="color:#1A6B4A;">Apply & Files</span>
 
-| Command                        | What it does     | Important flags | Flag description |
+| Command                        | What it does     | Important Flags | Flag Description |
 | ------------------------------ | ---------------- | --------------- | ---------------- |
 | `kubectl apply -f file.yaml`   | Apply config     | `-R`            | Recursive        |
 | `kubectl delete -f file.yaml`  | Delete resources | —               | —                |
@@ -1011,7 +1017,7 @@ echo $JWT_SECRET
 
 ## <span style="color:#C84B1F;">Debugging & Monitoring</span>
 
-| Command              | What it does          | Important flags                         | Flag description        |
+| Command              | What it does          | Important Flags                         | Flag Description        |
 | -------------------- | --------------------- | --------------------------------------- | ----------------------- |
 | `kubectl top pods`   | Resource usage (pods) | —                                       | Metrics server required |
 | `kubectl top nodes`  | Node usage            | —                                       | —                       |
@@ -1020,14 +1026,14 @@ echo $JWT_SECRET
 
 ## Labels & Selectors
 
-| Command                              | What it does    | Important flags | Flag description |
+| Command                              | What it does    | Important Flags | Flag Description |
 | ------------------------------------ | --------------- | --------------- | ---------------- |
 | `kubectl label pods <pod> key=value` | Add label       | `--overwrite`   | Replace existing |
 | `kubectl get pods -l key=value`      | Filter by label | —               | —                |
 
 ## <span style="color:#1A6B4A;">Port Forwarding</span>
 
-| Command                                  | What it does    | Important flags | Flag description |
+| Command                                  | What it does    | Important Flags | Flag Description |
 | ---------------------------------------- | --------------- | --------------- | ---------------- |
 | `kubectl port-forward pod/<pod> 8080:80` | Forward port    | —               | Local:Remote     |
 | `kubectl port-forward svc/<svc> 8080:80` | Forward service | —               | Local:Remote     |
