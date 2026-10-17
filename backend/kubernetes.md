@@ -1069,4 +1069,4 @@ kubectl apply -f file.yaml --dry-run=client
 
 ---
 
-Sheryians Coding School · Kubernetes Local Setup Notes · Docker Desktop · MERN Stack · nginx Ingress
+
