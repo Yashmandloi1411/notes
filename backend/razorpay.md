@@ -1,18 +1,28 @@
-Razorpay Payment Integration with Express.js
+# Razorpay Payment Integration with Express.js
+
 This guide will help you set up Razorpay payment integration with Express.js.It includes creating orders, handling payments, verifying payments, and saving payment details in MongoDB.
 
-Prerequisites
-Node.js installed
-MongoDB installed and running
-Razorpay account(for API keys)
-Setup
-1. Install Razorpay
+## Prerequisites
+
+1. Node.js installed
+2. MongoDB installed and running
+3. Razorpay account(for API keys)
+
+## Setup
+
+### 1. Install Razorpay
+
 Install Razorpay using npm:
 
+``` sh
 npm install razorpay
-2. Create an Instance to Access Resources from Razorpay API
-In your index.js file, create an instance of Razorpay:
+```
 
+### 2. Create an Instance to Access Resources from Razorpay API
+
+In your `index.js` file, create an instance of Razorpay:
+
+```js
 require('dotenv').config();
 const Razorpay = require('razorpay');
 
@@ -20,16 +30,24 @@ const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
-3. Setup MongoDB Connection
+```
+
+### 3. Setup MongoDB Connection
+
 Connect to MongoDB:
 
+```js
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log(err));
-4. Define the Payment Schema
-First, define the Payment schema using Mongoose.Create a new file called models/Payment.js:
+```
 
+### 4. Define the Payment Schema
+
+First, define the Payment schema using Mongoose.Create a new file called `models/Payment.js`:
+
+```js
 const mongoose = require('mongoose');
 
 const paymentSchema = new mongoose.Schema({
@@ -60,13 +78,24 @@ const paymentSchema = new mongoose.Schema({
 const Payment = mongoose.model('Payment', paymentSchema);
 
 module.exports = Payment;
-5. Import the Payment Model in index.js
-Import the Payment model in yourindex.js file:
+```
 
+
+### 5. Import the Payment Model in `index.js`
+
+Import the Payment model in your`index.js` file:
+
+```js
 const Payment = require('../models/Payment');
-6. Create a Checkout Page
-Create an HTML file index.html for your frontend:
+```
 
+
+
+### 6. Create a Checkout Page
+
+Create an HTML file `index.html` for your frontend:
+
+```html
 <!DOCTYPE html>
 <html>
 
@@ -85,9 +114,13 @@ Create an HTML file index.html for your frontend:
 </body>
 
 </html>
-7. Make a POST Route for URL = '/create/orderId' onindex.js
-In your index.js file, create a POST route to create an order:
+```
 
+### 7. Make a POST Route for URL = '/create/orderId' on`index.js`
+
+In your `index.js` file, create a POST route to create an order:
+
+```js
 router.post('/create/orderId', async (req, res) => {
   const options = {
     amount: 5000 * 100, // amount in smallest currency unit
@@ -108,14 +141,22 @@ router.post('/create/orderId', async (req, res) => {
     res.status(500).send('Error creating order');
   }
 });
-8. Add Axios CDN on Checkout Page
-Ensure the Axios and Jquery CDN is added in theindex.html file(already included in step 4):
+```
 
+### 8. Add Axios CDN on Checkout Page
+
+Ensure the Axios and Jquery CDN is added in the`index.html` file(already included in step 4):
+
+```html
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-9. Generate Order Code in Checkout Page Inside Script Tags
-Add the AJAX request to generate the order inside the <script> tags in index.html:
+```
 
+### 9. Generate Order Code in Checkout Page Inside Script Tags
+
+Add the AJAX request to generate the order inside the `<script>` tags in `index.html`:
+
+```html
 <script>
 document.getElementById('rzp-button1').onclick = function(e) {
   axios.post('/create/orderId')
@@ -172,8 +213,13 @@ document.getElementById('rzp-button1').onclick = function(e) {
     });
 };
 </script>
-10. Create POST Route for '/api/payment/verify' and Verify Payment Signature
-In your index.js file, create a POST route to verify the payment signature:
+```
+
+### 10. Create POST Route for '/api/payment/verify' and Verify Payment Signature
+
+In your `index.js` file, create a POST route to verify the payment signature:
+
+```js
 
 router.post('/api/payment/verify', async (req, res) => {
   const { razorpayOrderId, razorpayPaymentId, signature } = req.body;
@@ -198,14 +244,29 @@ router.post('/api/payment/verify', async (req, res) => {
     res.status(500).send('Error verifying payment');
   }
 });
-Frontend (React)
-Install Axios
-npm install axios
-Add Razorpay Checkout Script
-In public/index.html, inside <head>:
 
+```
+
+
+# Frontend (React)
+
+### Install Axios
+
+```sh
+npm install axios
+```
+
+### Add Razorpay Checkout Script
+
+In `public/index.html`, inside `<head>`:
+
+```html
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-Create Payment Button Component
+```
+
+### Create Payment Button Component
+
+```jsx
 import React from "react";
 import axios from "axios";
 
@@ -263,3 +324,4 @@ function PaymentButton() {
 }
 
 export default PaymentButton;
+```
